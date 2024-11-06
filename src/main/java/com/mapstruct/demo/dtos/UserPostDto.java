@@ -1,12 +1,10 @@
-package com.mapstruct.demo.mapstruct.dtos;
+package com.mapstruct.demo.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Getter
 @Setter

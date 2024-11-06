@@ -1,15 +1,14 @@
-package com.mapstruct.demo.mapstruct.dtos;
+package com.mapstruct.demo.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
-public class AuthorAllDto {
+public class AuthorDto {
     @JsonProperty("id")
     private int id;
 
@@ -21,7 +20,4 @@ public class AuthorAllDto {
 
     @JsonProperty("birthDate")
     private Date birthDate;
-
-    @JsonProperty("books")
-    private Set<BookSlimDto> books;
 }

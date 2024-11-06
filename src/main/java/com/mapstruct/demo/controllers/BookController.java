@@ -1,36 +1,55 @@
 package com.mapstruct.demo.controllers;
 
-import com.mapstruct.demo.mapstruct.mappers.MapStructMapper;
-import com.mapstruct.demo.mapstruct.dtos.BookDto;
-import com.mapstruct.demo.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mapstruct.demo.dtos.BookDto;
+import com.mapstruct.demo.entities.Book;
+import com.mapstruct.demo.mappers.MapStructMapper;
+import com.mapstruct.demo.service.BookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
+    private final MapStructMapper mapstructMapper;
+    private final BookService bookService;
 
-    @Autowired
-    private MapStructMapper mapstructMapper;
-
-    @Autowired
-    private BookRepository bookRepository;
-
-    @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getById(
-            @PathVariable(value = "id") int id
-    ) {
-        return new ResponseEntity<>(
-                mapstructMapper.bookToBookDto(
-                        bookRepository.findById(id).get()
-                ),
-                HttpStatus.OK
-        );
+    @GetMapping
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+        List<Book> books = bookService.getAllBooks();
+        return ResponseEntity.ok(mapstructMapper.booksToBookDtos(books));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BookDto> getBookById(@PathVariable Integer id) {
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok(mapstructMapper.bookToBookDto(book));
+    }
+
+    @PostMapping
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) {
+        Book book = mapstructMapper.bookDtoToBook(bookDto);
+        Book savedBook = bookService.createBook(book);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(mapstructMapper.bookToBookDto(savedBook));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDto> updateBook(
+            @PathVariable Integer id,
+            @RequestBody BookDto bookDto) {
+        Book book = mapstructMapper.bookDtoToBook(bookDto);
+        Book updatedBook = bookService.updateBook(id, book);
+        return ResponseEntity.ok(mapstructMapper.bookToBookDto(updatedBook));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Integer id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
 }
