@@ -27,10 +27,10 @@ CREATE TABLE author_book (
     CONSTRAINT author_book_book_fk FOREIGN KEY (book_id) REFERENCES book (id)
 );
 
-CREATE TABLE user_author (
+CREATE TABLE user_book (
     user_id INT NOT NULL,
-    author_id INT NOT NULL,
-    PRIMARY KEY (author_id, user_id),
-    CONSTRAINT user_author_user_fk FOREIGN KEY (user_id) REFERENCES user (id),
-    CONSTRAINT user_author_author_fk FOREIGN KEY (author_id) REFERENCES author (id)
+    book_id INT NOT NULL,
+    PRIMARY KEY (book_id, user_id),
+    CONSTRAINT user_book_user_fk FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT user_book_book_fk FOREIGN KEY (book_id) REFERENCES book (id)
 );

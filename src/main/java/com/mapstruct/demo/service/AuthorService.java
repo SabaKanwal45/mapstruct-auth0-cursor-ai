@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +69,11 @@ public class AuthorService {
         book.getAuthors().remove(author);
         
         return authorRepository.save(author);
+    }
+
+    public Set<Book> getAuthorBooks(Integer authorId) {
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + authorId));
+        return author.getBooks();
     }
 }
