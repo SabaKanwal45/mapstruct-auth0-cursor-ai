@@ -10,7 +10,7 @@ INSERT INTO book (id, title, release_date) VALUES
 (3, '9 Keys To Academic Success', NULL);
 
 -- Insert Users
-INSERT INTO user (id, email, password, name, surname) VALUES
+INSERT INTO `user` (id, email, password, name, surname) VALUES
 (1, 'test@test.com', 'test', 'John', 'Smith');
 
 -- Insert Author-Book relationships

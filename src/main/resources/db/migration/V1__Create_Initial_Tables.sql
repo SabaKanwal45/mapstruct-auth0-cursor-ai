@@ -11,7 +11,7 @@ CREATE TABLE book (
     release_date DATE DEFAULT NULL
 );
 
-CREATE TABLE user (
+CREATE TABLE `user` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(250) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -31,6 +31,6 @@ CREATE TABLE user_book (
     user_id INT NOT NULL,
     book_id INT NOT NULL,
     PRIMARY KEY (book_id, user_id),
-    CONSTRAINT user_book_user_fk FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT user_book_user_fk FOREIGN KEY (user_id) REFERENCES `user` (id),
     CONSTRAINT user_book_book_fk FOREIGN KEY (book_id) REFERENCES book (id)
 );
